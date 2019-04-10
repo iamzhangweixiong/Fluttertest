@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'model.g.dart';
 
 // 命令行 flutter packages pub run build_runner build
+// 坑1：不能和基本数据类型重名，比如 json 的 key 不能是 list,这样生成的类就是 List,会导致生成的 .g.dart 文件有问题
 
 @JsonSerializable()
 class Hot {

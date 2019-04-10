@@ -4,6 +4,7 @@
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:livepaper/custom/category_listview.dart';
 import 'package:livepaper/custom/vertical_pageview.dart';
 import 'package:livepaper/model/http_api.dart';
 import 'dart:convert';
@@ -85,7 +86,8 @@ class GridItemWidget extends StatelessWidget {
         int videoId = hotData.sourceId;
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           if (source == "hot") {
-            return VideoPage(sourceId: videoId);
+            return CategoryListView();
+//            return VideoPage(sourceId: videoId);
           } else {
             return VerticalPageView();
           }
