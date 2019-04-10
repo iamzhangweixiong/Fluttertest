@@ -14,7 +14,7 @@ class CategoryListView extends StatefulWidget {
   }
 }
 
-class _CategoryListState extends State<CategoryListView> {
+class _CategoryListState extends State<CategoryListView> with AutomaticKeepAliveClientMixin {
   List<Category> categoryListData = <Category>[];
   List<CategoryTab> tabListData = <CategoryTab>[];
 
@@ -46,15 +46,26 @@ class _CategoryListState extends State<CategoryListView> {
         itemCount: categoryListData.length,
         itemBuilder: (context, itemIndex) {
           return new Column(children: <Widget>[
-            new Text(categoryListData[itemIndex].tag.name,
-                textAlign: TextAlign.center),
+            new SizedBox(
+                height: 50,
+                child: new Row(children: <Widget>[
+                  // 占用剩余空间
+                  new Expanded(
+                      child: new Container(
+                          child: new Text(categoryListData[itemIndex].tag.name),
+                          padding: EdgeInsets.only(left: 10))),
+                  new Icon(Icons.chevron_right)
+                ])),
             new SizedBox(
                 // 嵌套的 ListView 需要给定高度，否则无法显示
-                height: 500,
+                height: 400,
                 child: CategoryItemList(categoryListData[itemIndex].list))
           ]);
         });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class CategoryItemList extends StatefulWidget {
@@ -81,11 +92,10 @@ class _ListItemState extends State<CategoryItemList> {
         itemBuilder: (context, itemIndex) {
           return new GestureDetector(
             child: Container(
-                padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                padding: EdgeInsets.only(left: 10),
+                // 图片缓存库
                 child: CachedNetworkImage(
-                    // 图片缓存库
-                    placeholder: (context, url) =>
-                        new CircularProgressIndicator(), // 菊花
+                    placeholder: (context, url) => new CircularProgressIndicator(), // 菊花
                     errorWidget: (context, url, error) => new Icon(Icons.error),
                     imageUrl: list[itemIndex].cover)),
             onTap: () {

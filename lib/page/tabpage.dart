@@ -86,8 +86,8 @@ class GridItemWidget extends StatelessWidget {
         int videoId = hotData.sourceId;
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           if (source == "hot") {
-            return CategoryListView();
-//            return VideoPage(sourceId: videoId);
+//            return CategoryListView();
+            return VideoPage(sourceId: videoId);
           } else {
             return VerticalPageView();
           }
