@@ -12,12 +12,11 @@ class VerticalPageView extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() =>
-      _VerticalPageState(dataList, initIndex);
+  State<StatefulWidget> createState() => _VerticalPageState(dataList, initIndex);
 }
 
 class _VerticalPageState extends State<VerticalPageView> {
-  List<Item> list;
+  final List<Item> list;
   final int initIndex;
 
   _VerticalPageState(this.list, this.initIndex);
@@ -25,13 +24,12 @@ class _VerticalPageState extends State<VerticalPageView> {
   @override
   Widget build(BuildContext context) {
     return new PageView.builder(
-      controller: new PageController(initialPage: initIndex),
-      scrollDirection: Axis.vertical,
-      itemBuilder: (BuildContext context, int index) {
-        return new _PageItem(list[index]);
-      },
-      itemCount: list != null && list.length > 0 ? list.length : 0,
-    );
+        controller: new PageController(initialPage: initIndex),
+        scrollDirection: Axis.vertical,
+        itemBuilder: (BuildContext context, int index) {
+          return new _PageItem(list[index]);
+        },
+        itemCount: list != null && list.length > 0 ? list.length : 0);
   }
 }
 
@@ -71,8 +69,14 @@ class _PageItemState extends State<_PageItem> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    videoController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // 图片缓存库
+
     var cachedNetworkImage = AnimatedOpacity(
         opacity: _isPlaying ? 0 : 1,
         duration: Duration(milliseconds: 100),
@@ -85,16 +89,14 @@ class _PageItemState extends State<_PageItem> {
         opacity: _isPlaying ? 1 : 0,
         duration: Duration(milliseconds: 100),
         child: AspectRatio(
-          aspectRatio: videoController.value.aspectRatio,
-          child: VideoPlayer(videoController),
-        ));
+            aspectRatio: videoController.value.aspectRatio,
+            child: VideoPlayer(videoController)));
 
     return new GestureDetector(
       child: Container(
           child: new Stack(
-        alignment: AlignmentDirectional.center,
-        children: <Widget>[cachedNetworkImage, aspectVideoPlayer],
-      )),
+              alignment: AlignmentDirectional.center,
+              children: <Widget>[cachedNetworkImage, aspectVideoPlayer])),
       onTap: () {
         // 点击事件
         String source = item.video;
@@ -103,12 +105,14 @@ class _PageItemState extends State<_PageItem> {
             MaterialPageRoute(
                 builder: (context) => VideoPage(sourceUrl: source)));
       },
+      // 长按开始，播放视频，隐藏照片
       onLongPressStart: (LongPressStartDetails details) {
         setState(() {
           videoController.seekTo(Duration(milliseconds: 0));
           videoController.play();
         });
       },
+      // 长按结束，显示照片，隐藏视频
       onLongPressEnd: (LongPressEndDetails details) {
         setState(() {
           videoController.pause();
