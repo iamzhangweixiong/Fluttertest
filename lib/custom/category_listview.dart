@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:livepaper/custom/vertical_pageview.dart';
 import 'package:livepaper/model/category_list.dart';
 import 'package:livepaper/model/http_api.dart';
+import 'package:livepaper/page/tabpage.dart';
 
 class CategoryListView extends StatefulWidget {
   CategoryListView({Key key}) : super(key: key);
@@ -34,8 +35,8 @@ class _CategoryListState extends State<CategoryListView>
       final CategoryList categoryList = CategoryList.fromJson(decodeJson);
       print(categoryList.data.category);
       setState(() {
-        categoryListData = categoryList.data.category;
-        tabListData = categoryList.data.tab;
+          tabListData = categoryList.data.tab;
+          categoryListData = categoryList.data.category;
       });
     } catch (e) {
       return print(e);
@@ -45,8 +46,13 @@ class _CategoryListState extends State<CategoryListView>
   @override
   Widget build(BuildContext context) {
     return new ListView.builder(
-        itemCount: categoryListData.length,
+        itemCount: categoryListData.length + 1,
         itemBuilder: (context, itemIndex) {
+          if (itemIndex == 0) {
+            return new SizedBox(
+                height: 80,
+                child: _TabItemList(tabListData));
+          }
           return new Column(children: <Widget>[
             new SizedBox(
                 height: 50,
@@ -54,14 +60,14 @@ class _CategoryListState extends State<CategoryListView>
                   // 占用剩余空间
                   new Expanded(
                       child: new Container(
-                          child: new Text(categoryListData[itemIndex].tag.name),
+                          child: new Text(categoryListData[itemIndex - 1].tag.name),
                           padding: EdgeInsets.only(left: 10))),
                   new Icon(Icons.chevron_right)
                 ])),
             new SizedBox(
                 // 嵌套的 ListView 需要给定高度，否则无法显示
-                height: 400,
-                child: CategoryItemList(categoryListData[itemIndex].list))
+                height: 250,
+                child: _CategoryItemList(categoryListData[itemIndex - 1].list))
           ]);
         });
   }
@@ -70,10 +76,52 @@ class _CategoryListState extends State<CategoryListView>
   bool get wantKeepAlive => true;
 }
 
-class CategoryItemList extends StatefulWidget {
+class _TabItemList extends StatefulWidget {
+  final List<CategoryTab> _list;
+
+  _TabItemList(this._list);
+
+  @override
+  State<StatefulWidget> createState() => _TabItemListState(_list);
+}
+
+class _TabItemListState extends State<_TabItemList> {
+  final List<CategoryTab> _tabListData;
+
+  _TabItemListState(this._tabListData);
+
+  @override
+  Widget build(BuildContext context) {
+    return new ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: _tabListData.length,
+        itemBuilder: (context, itemIndex) {
+            return new GestureDetector(
+                child: new Container(
+                    padding: EdgeInsets.only(left: 10),
+                    child: new Stack(
+                        alignment: AlignmentDirectional.center,
+                        children: <Widget>[
+                            new CachedNetworkImage(
+                                placeholder: (context, url) => new CircularProgressIndicator(),
+                                errorWidget: (context, url, error) => new Icon(Icons.error),
+                                imageUrl: _tabListData[itemIndex].cover),
+                            new Text(_tabListData[itemIndex].name,
+                                style: TextStyle(color: Colors.white),)
+                        ])),
+                onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return new TabPage();
+                    }));
+            });
+        });
+  }
+}
+
+class _CategoryItemList extends StatefulWidget {
   final List<Item> list;
 
-  CategoryItemList(this.list);
+  _CategoryItemList(this.list);
 
   @override
   State<StatefulWidget> createState() {
@@ -81,7 +129,7 @@ class CategoryItemList extends StatefulWidget {
   }
 }
 
-class _ListItemState extends State<CategoryItemList> {
+class _ListItemState extends State<_CategoryItemList> {
   final List<Item> list;
 
   _ListItemState(this.list);
@@ -97,14 +145,14 @@ class _ListItemState extends State<CategoryItemList> {
                 padding: EdgeInsets.only(left: 10),
                 // 图片缓存库
                 child: CachedNetworkImage(
-                    placeholder: (context, url) =>
-                        new CircularProgressIndicator(), // 菊花
+                    placeholder: (context, url) => new CircularProgressIndicator(), // 菊花
                     errorWidget: (context, url, error) => new Icon(Icons.error),
                     imageUrl: list[itemIndex].cover)),
             onTap: () {
               // 点击事件
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return new VerticalPageView(dataList: list, initIndex: itemIndex);
+                return new VerticalPageView(
+                    dataList: list, initIndex: itemIndex);
               }));
             },
           );

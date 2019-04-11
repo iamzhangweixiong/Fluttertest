@@ -26,9 +26,7 @@ class _VerticalPageState extends State<VerticalPageView> {
     return new PageView.builder(
         controller: new PageController(initialPage: initIndex),
         scrollDirection: Axis.vertical,
-        itemBuilder: (BuildContext context, int index) {
-          return new _PageItem(list[index]);
-        },
+        itemBuilder: (BuildContext context, int index) => new _PageItem(list[index]),
         itemCount: list != null && list.length > 0 ? list.length : 0);
   }
 }
@@ -77,6 +75,7 @@ class _PageItemState extends State<_PageItem> {
   @override
   Widget build(BuildContext context) {
 
+    /// Offstage 也可以直接控制 widget 的显示和隐藏
     var cachedNetworkImage = AnimatedOpacity(
         opacity: _isPlaying ? 0 : 1,
         duration: Duration(milliseconds: 100),
