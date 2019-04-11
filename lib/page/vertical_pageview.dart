@@ -1,11 +1,11 @@
-import 'package:livepaper/model/category_list.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:livepaper/model/item.dart';
 import 'package:livepaper/page/videopage.dart';
 import 'package:video_player/video_player.dart';
 
 class VerticalPageView extends StatefulWidget {
-  final List<CategoryItem> dataList;
+  final List<Item> dataList;
   final int initIndex;
 
   VerticalPageView({Key key, @required this.dataList, this.initIndex = 0})
@@ -16,7 +16,7 @@ class VerticalPageView extends StatefulWidget {
 }
 
 class _VerticalPageState extends State<VerticalPageView> {
-  final List<CategoryItem> list;
+  final List<Item> list;
   final int initIndex;
 
   _VerticalPageState(this.list, this.initIndex);
@@ -32,7 +32,7 @@ class _VerticalPageState extends State<VerticalPageView> {
 }
 
 class _PageItem extends StatefulWidget {
-  final CategoryItem item;
+  final Item item;
 
   _PageItem(this.item);
 
@@ -41,7 +41,7 @@ class _PageItem extends StatefulWidget {
 }
 
 class _PageItemState extends State<_PageItem> {
-  final CategoryItem item;
+  final Item item;
   VideoPlayerController videoController;
   bool _isPlaying = false;
 

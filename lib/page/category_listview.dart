@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:livepaper/model/item.dart';
 import 'package:livepaper/page/gridpage.dart';
 import 'package:livepaper/page/vertical_pageview.dart';
 import 'package:livepaper/model/category_list.dart';
 import 'package:livepaper/model/http_api.dart';
-import 'package:livepaper/page/tabpage.dart';
 
 class CategoryListView extends StatefulWidget {
   CategoryListView({Key key}) : super(key: key);
@@ -119,7 +119,7 @@ class _TabItemListState extends State<_TabItemList>{
 }
 
 class _CategoryItemList extends StatefulWidget {
-  final List<CategoryItem> list;
+  final List<Item> list;
 
   _CategoryItemList(this.list);
 
@@ -130,7 +130,7 @@ class _CategoryItemList extends StatefulWidget {
 }
 
 class _ListItemState extends State<_CategoryItemList> {
-  final List<CategoryItem> list;
+  final List<Item> list;
 
   _ListItemState(this.list);
 

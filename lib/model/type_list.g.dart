@@ -28,15 +28,15 @@ Map<String, dynamic> _$TypeListToJson(TypeList instance) => <String, dynamic>{
 Data _$DataFromJson(Map<String, dynamic> json) {
   return Data((json['list'] as List)
       ?.map((e) =>
-          e == null ? null : TypeListItem.fromJson(e as Map<String, dynamic>))
+          e == null ? null : Item.fromJson(e as Map<String, dynamic>))
       ?.toList());
 }
 
 Map<String, dynamic> _$DataToJson(Data instance) =>
     <String, dynamic>{'list': instance.list};
 
-TypeListItem _$TypeListItemFromJson(Map<String, dynamic> json) {
-  return TypeListItem(
+Item _$ItemFromJson(Map<String, dynamic> json) {
+  return Item(
       json['metadata'] as String,
       json['video'] as String,
       json['cover'] as String,
@@ -59,7 +59,7 @@ TypeListItem _$TypeListItemFromJson(Map<String, dynamic> json) {
       (json['tag'] as List)?.map((e) => e as int)?.toList());
 }
 
-Map<String, dynamic> _$TypeListItemToJson(TypeListItem instance) =>
+Map<String, dynamic> _$ItemToJson(Item instance) =>
     <String, dynamic>{
       'metadata': instance.metadata,
       'video': instance.video,
