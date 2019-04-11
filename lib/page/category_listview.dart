@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:livepaper/model/item.dart';
-import 'package:livepaper/page/gridpage.dart';
+import 'package:livepaper/page/grid_page.dart';
 import 'package:livepaper/page/vertical_pageview.dart';
 import 'package:livepaper/model/category_list.dart';
 import 'package:livepaper/model/http_api.dart';

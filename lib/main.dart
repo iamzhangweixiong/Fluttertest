@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:livepaper/page/category_listview.dart';
-import 'package:livepaper/page/tabpage.dart';
+import 'package:livepaper/page/first_page.dart';
 
 void main() => runApp(TabBarMain());
 
@@ -35,7 +35,7 @@ class TabBarMain extends StatelessWidget {
           ),
           //body表示具体展示的内容
           body: TabBarView(children: [
-            TabPage(source: 'hot'), CategoryListView()
+            FirstPage(), CategoryListView()
           ]),
         ),
       ),

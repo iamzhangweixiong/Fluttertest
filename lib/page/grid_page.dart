@@ -10,7 +10,7 @@ import 'package:livepaper/page/vertical_pageview.dart';
 class GridPage extends StatefulWidget {
   final int source;
 
-  GridPage({Key key, @required this.source}) : super(key: key);
+  GridPage({Key key, this.source}) : super(key: key);
 
   @override
   _GridPageState createState() => _GridPageState(source);
@@ -33,7 +33,7 @@ class _GridPageState extends State<GridPage>
   void getTypeList() async {
     try {
       Response response;
-      response = await Dio().get(HttpApi.idPaperList + source.toString());
+      response = await Dio().get(source == null ? HttpApi.homePaperList : HttpApi.idPaperList + source.toString());
       final decodeJson = json.decode(json.encode(response.data));
       TypeList typeList = TypeList.fromJson(decodeJson);
       setState(() {
