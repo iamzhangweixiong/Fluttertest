@@ -2,28 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPage extends StatefulWidget {
-  VideoPage({Key key, this.sourceId}) : super(key: key);
+  VideoPage({Key key, this.sourceUrl}) : super(key: key);
 
-  final int sourceId;
+  final String sourceUrl;
 
   @override
-  VideoPageState createState() => VideoPageState();
+  VideoPageState createState() => VideoPageState(sourceUrl);
 }
 
 class VideoPageState extends State<VideoPage> {
   VideoPlayerController videoController;
   bool _isPlaying = false;
-  String url = 'https://dl-cmshow.cmcm.com/video/upload_3f9e7b015fb5aec69c11dd7d47b641a9.mp4';
+  final String sourceUrl;
+
+  VideoPageState(this.sourceUrl);
 
   @override
   void initState() {
     super.initState();
-    videoController = VideoPlayerController.network(url)
+    videoController = VideoPlayerController.network(sourceUrl)
       ..addListener(() {
         final bool isPlaying = videoController.value.isPlaying;
         print(isPlaying);
         if (isPlaying != _isPlaying) {
-          setState(() { _isPlaying = isPlaying; });
+          setState(() {
+            _isPlaying = isPlaying;
+          });
         }
       })
       ..initialize().then((_) {

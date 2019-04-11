@@ -1,48 +1,31 @@
-import 'dart:convert';
-
+import 'package:livepaper/model/category_list.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:livepaper/model/model.dart';
 import 'package:livepaper/page/videopage.dart';
+import 'package:video_player/video_player.dart';
 
 class VerticalPageView extends StatefulWidget {
-  VerticalPageView({Key key}) : super(key: key);
+  final List<Item> dataList;
+  final int initIndex;
+
+  VerticalPageView({Key key, @required this.dataList, this.initIndex = 0})
+      : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return new _VerticalPageState();
-  }
+  State<StatefulWidget> createState() =>
+      _VerticalPageState(dataList, initIndex);
 }
 
 class _VerticalPageState extends State<VerticalPageView> {
-  List<HotData> list = <HotData>[];
+  List<Item> list;
+  final int initIndex;
 
-  @override
-  void initState() {
-    super.initState();
-    getHot();
-  }
-
-  void getHot() async {
-    try {
-      Response response;
-      response = await Dio()
-          .get("http://api-cmshow-ios.cmcm.com/v1/get_source?cate=hot");
-      final hotJson = json.decode(json.encode(response.data));
-      Hot hot = Hot.fromJson(hotJson);
-      setState(() {
-        list = hot.hotData;
-      });
-    } catch (e) {
-      return print(e);
-    }
-  }
+  _VerticalPageState(this.list, this.initIndex);
 
   @override
   Widget build(BuildContext context) {
     return new PageView.builder(
-      controller: new PageController(),
+      controller: new PageController(initialPage: initIndex),
       scrollDirection: Axis.vertical,
       itemBuilder: (BuildContext context, int index) {
         return new _PageItem(list[index]);
@@ -52,28 +35,84 @@ class _VerticalPageState extends State<VerticalPageView> {
   }
 }
 
-class _PageItem extends StatelessWidget {
-  final HotData hotData;
+class _PageItem extends StatefulWidget {
+  final Item item;
 
-  _PageItem(this.hotData);
+  _PageItem(this.item);
+
+  @override
+  State<StatefulWidget> createState() => _PageItemState(item);
+}
+
+class _PageItemState extends State<_PageItem> {
+  final Item item;
+  VideoPlayerController videoController;
+  bool _isPlaying = false;
+
+  _PageItemState(this.item);
+
+  @override
+  void initState() {
+    super.initState();
+    videoController = VideoPlayerController.network(item.video)
+      ..addListener(() {
+        final bool isPlaying = videoController.value.isPlaying;
+        print(isPlaying);
+        if (isPlaying != _isPlaying) {
+          setState(() {
+            _isPlaying = isPlaying;
+          });
+        }
+      })
+      ..initialize().then((_) {
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        setState(() {});
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
+    // 图片缓存库
+    var cachedNetworkImage = AnimatedOpacity(
+        opacity: _isPlaying ? 0 : 1,
+        duration: Duration(milliseconds: 100),
+        child: CachedNetworkImage(
+            placeholder: (context, url) => new CircularProgressIndicator(),
+            errorWidget: (context, url, error) => new Icon(Icons.error),
+            imageUrl: item.back));
+
+    var aspectVideoPlayer = AnimatedOpacity(
+        opacity: _isPlaying ? 1 : 0,
+        duration: Duration(milliseconds: 100),
+        child: AspectRatio(
+          aspectRatio: videoController.value.aspectRatio,
+          child: VideoPlayer(videoController),
+        ));
+
     return new GestureDetector(
       child: Container(
-          // 图片缓存库
-          child: CachedNetworkImage(
-              placeholder: (context, url) =>
-                  new CircularProgressIndicator(), // 菊花
-              errorWidget: (context, url, error) => new Icon(Icons.error),
-              imageUrl: hotData.previewUrl)),
+          child: new Stack(
+        alignment: AlignmentDirectional.center,
+        children: <Widget>[cachedNetworkImage, aspectVideoPlayer],
+      )),
       onTap: () {
         // 点击事件
-        int videoId = hotData.sourceId;
+        String source = item.video;
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => VideoPage(sourceId: videoId)));
+                builder: (context) => VideoPage(sourceUrl: source)));
+      },
+      onLongPressStart: (LongPressStartDetails details) {
+        setState(() {
+          videoController.seekTo(Duration(milliseconds: 0));
+          videoController.play();
+        });
+      },
+      onLongPressEnd: (LongPressEndDetails details) {
+        setState(() {
+          videoController.pause();
+        });
       },
     );
   }

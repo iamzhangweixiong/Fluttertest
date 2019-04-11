@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:livepaper/custom/vertical_pageview.dart';
 import 'package:livepaper/model/category_list.dart';
 import 'package:livepaper/model/http_api.dart';
 
@@ -14,7 +15,8 @@ class CategoryListView extends StatefulWidget {
   }
 }
 
-class _CategoryListState extends State<CategoryListView> with AutomaticKeepAliveClientMixin {
+class _CategoryListState extends State<CategoryListView>
+    with AutomaticKeepAliveClientMixin {
   List<Category> categoryListData = <Category>[];
   List<CategoryTab> tabListData = <CategoryTab>[];
 
@@ -95,11 +97,15 @@ class _ListItemState extends State<CategoryItemList> {
                 padding: EdgeInsets.only(left: 10),
                 // 图片缓存库
                 child: CachedNetworkImage(
-                    placeholder: (context, url) => new CircularProgressIndicator(), // 菊花
+                    placeholder: (context, url) =>
+                        new CircularProgressIndicator(), // 菊花
                     errorWidget: (context, url, error) => new Icon(Icons.error),
                     imageUrl: list[itemIndex].cover)),
             onTap: () {
               // 点击事件
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return new VerticalPageView(dataList: list, initIndex: itemIndex);
+              }));
             },
           );
         });
