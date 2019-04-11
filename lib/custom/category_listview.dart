@@ -16,8 +16,7 @@ class CategoryListView extends StatefulWidget {
   }
 }
 
-class _CategoryListState extends State<CategoryListView>
-    with AutomaticKeepAliveClientMixin {
+class _CategoryListState extends State<CategoryListView> {
   List<Category> categoryListData = <Category>[];
   List<CategoryTab> tabListData = <CategoryTab>[];
 
@@ -71,9 +70,6 @@ class _CategoryListState extends State<CategoryListView>
           ]);
         });
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 class _TabItemList extends StatefulWidget {
@@ -85,10 +81,13 @@ class _TabItemList extends StatefulWidget {
   State<StatefulWidget> createState() => _TabItemListState(_list);
 }
 
-class _TabItemListState extends State<_TabItemList> {
+class _TabItemListState extends State<_TabItemList> with AutomaticKeepAliveClientMixin{
   final List<CategoryTab> _tabListData;
 
   _TabItemListState(this._tabListData);
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
@@ -129,10 +128,13 @@ class _CategoryItemList extends StatefulWidget {
   }
 }
 
-class _ListItemState extends State<_CategoryItemList> {
+class _ListItemState extends State<_CategoryItemList> with AutomaticKeepAliveClientMixin{
   final List<Item> list;
 
   _ListItemState(this.list);
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
