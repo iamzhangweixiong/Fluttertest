@@ -1,7 +1,6 @@
-import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:livepaper/model/http_service.dart';
 import 'package:livepaper/model/item.dart';
 import 'package:livepaper/page/grid_page.dart';
 import 'package:livepaper/page/vertical_pageview.dart';
@@ -30,20 +29,14 @@ class _CategoryListState extends State<CategoryListView>  with AutomaticKeepAliv
     getCategory();
   }
 
-  void getCategory() async {
-    try {
-      Response response;
-      response = await Dio().get(HttpApi.basePaperList);
-      final decodeJson = json.decode(json.encode(response.data));
-      final CategoryList categoryList = CategoryList.fromJson(decodeJson);
-      print(categoryList.data.category);
-      setState(() {
-          tabListData = categoryList.data.tab;
-          categoryListData = categoryList.data.category;
+  void getCategory() {
+      HttpService().getData(HttpApi.basePaperList).then((json) {
+          final CategoryList categoryList = CategoryList.fromJson(json);
+          setState(() {
+              tabListData = categoryList.data.tab;
+              categoryListData = categoryList.data.category;
+          });
       });
-    } catch (e) {
-      return print(e);
-    }
   }
 
   @override

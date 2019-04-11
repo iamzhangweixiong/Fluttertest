@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:livepaper/model/http_api.dart';
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:livepaper/model/http_service.dart';
 import 'package:livepaper/model/item.dart';
 import 'package:livepaper/model/type_list.dart';
 import 'package:livepaper/page/vertical_pageview.dart';
@@ -30,18 +31,13 @@ class _GridPageState extends State<GridPage>
     getTypeList();
   }
 
-  void getTypeList() async {
-    try {
-      Response response;
-      response = await Dio().get(source == null ? HttpApi.homePaperList : HttpApi.idPaperList + source.toString());
-      final decodeJson = json.decode(json.encode(response.data));
-      TypeList typeList = TypeList.fromJson(decodeJson);
+  void getTypeList() {
+    HttpService().getData(HttpApi.idPaperList + source.toString()).then((json) {
+      final TypeList typeList = TypeList.fromJson(json);
       setState(() {
         list = typeList.data.list;
       });
-    } catch (e) {
-      return print(e);
-    }
+    });
   }
 
   @override
