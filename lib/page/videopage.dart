@@ -39,6 +39,9 @@ class VideoPageState extends State<VideoPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Colors.white,
+      ),
       title: 'Video Demo',
       home: Scaffold(
         body: Center(

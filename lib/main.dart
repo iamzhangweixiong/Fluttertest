@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:livepaper/custom/category_listview.dart';
+import 'package:livepaper/page/category_listview.dart';
 import 'package:livepaper/page/tabpage.dart';
 
 void main() => runApp(TabBarMain());
 
 class TabBarMain extends StatelessWidget {
-  final titleList = ['Hot','News','Cate'];
+  final titleList = ['Hot','Cate'];
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -35,7 +35,7 @@ class TabBarMain extends StatelessWidget {
           ),
           //body表示具体展示的内容
           body: TabBarView(children: [
-            TabPage(source: 'hot',), TabPage(source: 'new',), CategoryListView()
+            TabPage(source: 'hot'), CategoryListView()
           ]),
         ),
       ),

@@ -1,10 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'category_list.g.dart';
+part 'type_list.g.dart';
 
 
 @JsonSerializable()
-class CategoryList extends Object {
+class TypeList extends Object {
 
     @JsonKey(name: 'data')
     Data data;
@@ -15,11 +15,11 @@ class CategoryList extends Object {
     @JsonKey(name: 'pageInfo')
     PageInfo pageInfo;
 
-    CategoryList(this.data,this.header,this.pageInfo,);
+    TypeList(this.data,this.header,this.pageInfo,);
 
-    factory CategoryList.fromJson(Map<String, dynamic> srcJson) => _$CategoryListFromJson(srcJson);
+    factory TypeList.fromJson(Map<String, dynamic> srcJson) => _$TypeListFromJson(srcJson);
 
-    Map<String, dynamic> toJson() => _$CategoryListToJson(this);
+    Map<String, dynamic> toJson() => _$TypeListToJson(this);
 
 }
 
@@ -27,13 +27,10 @@ class CategoryList extends Object {
 @JsonSerializable()
 class Data extends Object {
 
-    @JsonKey(name: 'category')
-    List<Category> category;
+    @JsonKey(name: 'list')
+    List<TypeListItem> list;
 
-    @JsonKey(name: 'tab')
-    List<CategoryTab> tab;
-
-    Data(this.category,this.tab,);
+    Data(this.list,);
 
     factory Data.fromJson(Map<String, dynamic> srcJson) => _$DataFromJson(srcJson);
 
@@ -43,43 +40,7 @@ class Data extends Object {
 
 
 @JsonSerializable()
-class Category extends Object {
-
-    @JsonKey(name: 'tag')
-    Tag tag;
-
-    @JsonKey(name: 'list')
-    List<CategoryItem> list;
-
-    Category(this.tag,this.list,);
-
-    factory Category.fromJson(Map<String, dynamic> srcJson) => _$CategoryFromJson(srcJson);
-
-    Map<String, dynamic> toJson() => _$CategoryToJson(this);
-
-}
-
-
-@JsonSerializable()
-class Tag extends Object {
-
-    @JsonKey(name: 'id')
-    int id;
-
-    @JsonKey(name: 'name')
-    String name;
-
-    Tag(this.id,this.name,);
-
-    factory Tag.fromJson(Map<String, dynamic> srcJson) => _$TagFromJson(srcJson);
-
-    Map<String, dynamic> toJson() => _$TagToJson(this);
-
-}
-
-
-@JsonSerializable()
-class CategoryItem extends Object {
+class TypeListItem extends Object {
 
     @JsonKey(name: 'metadata')
     String metadata;
@@ -141,35 +102,11 @@ class CategoryItem extends Object {
     @JsonKey(name: 'tag')
     List<int> tag;
 
-    CategoryItem(this.metadata,this.video,this.cover,this.color,this.name,this.desc,this.back,this.size,this.kbps,this.dpi,this.codec,this.purchase,this.order,this.id,this.coverDaily,this.timeDaily,this.timeDailyDay,this.timeDailyMonth,this.timeLen,this.tag,);
+    TypeListItem(this.metadata,this.video,this.cover,this.color,this.name,this.desc,this.back,this.size,this.kbps,this.dpi,this.codec,this.purchase,this.order,this.id,this.coverDaily,this.timeDaily,this.timeDailyDay,this.timeDailyMonth,this.timeLen,this.tag,);
 
-    factory CategoryItem.fromJson(Map<String, dynamic> srcJson) => _$CategoryItemFromJson(srcJson);
+    factory TypeListItem.fromJson(Map<String, dynamic> srcJson) => _$TypeListItemFromJson(srcJson);
 
-    Map<String, dynamic> toJson() => _$CategoryItemToJson(this);
-
-}
-
-
-@JsonSerializable()
-class CategoryTab extends Object {
-
-    @JsonKey(name: 'cover')
-    String cover;
-
-    @JsonKey(name: 'color')
-    String color;
-
-    @JsonKey(name: 'id')
-    int id;
-
-    @JsonKey(name: 'name')
-    String name;
-
-    CategoryTab(this.cover,this.color,this.id,this.name,);
-
-    factory CategoryTab.fromJson(Map<String, dynamic> srcJson) => _$CategoryTabFromJson(srcJson);
-
-    Map<String, dynamic> toJson() => _$CategoryTabToJson(this);
+    Map<String, dynamic> toJson() => _$TypeListItemToJson(this);
 
 }
 

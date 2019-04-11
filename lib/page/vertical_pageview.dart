@@ -5,7 +5,7 @@ import 'package:livepaper/page/videopage.dart';
 import 'package:video_player/video_player.dart';
 
 class VerticalPageView extends StatefulWidget {
-  final List<Item> dataList;
+  final List<CategoryItem> dataList;
   final int initIndex;
 
   VerticalPageView({Key key, @required this.dataList, this.initIndex = 0})
@@ -16,7 +16,7 @@ class VerticalPageView extends StatefulWidget {
 }
 
 class _VerticalPageState extends State<VerticalPageView> {
-  final List<Item> list;
+  final List<CategoryItem> list;
   final int initIndex;
 
   _VerticalPageState(this.list, this.initIndex);
@@ -32,7 +32,7 @@ class _VerticalPageState extends State<VerticalPageView> {
 }
 
 class _PageItem extends StatefulWidget {
-  final Item item;
+  final CategoryItem item;
 
   _PageItem(this.item);
 
@@ -41,7 +41,7 @@ class _PageItem extends StatefulWidget {
 }
 
 class _PageItemState extends State<_PageItem> {
-  final Item item;
+  final CategoryItem item;
   VideoPlayerController videoController;
   bool _isPlaying = false;
 

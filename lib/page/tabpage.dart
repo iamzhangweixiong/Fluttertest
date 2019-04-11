@@ -4,8 +4,8 @@
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:livepaper/custom/category_listview.dart';
-import 'package:livepaper/custom/vertical_pageview.dart';
+import 'package:livepaper/page/category_listview.dart';
+import 'package:livepaper/page/vertical_pageview.dart';
 import 'package:livepaper/model/http_api.dart';
 import 'dart:convert';
 import 'package:livepaper/model/model.dart';

@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:livepaper/custom/vertical_pageview.dart';
+import 'package:livepaper/page/gridpage.dart';
+import 'package:livepaper/page/vertical_pageview.dart';
 import 'package:livepaper/model/category_list.dart';
 import 'package:livepaper/model/http_api.dart';
 import 'package:livepaper/page/tabpage.dart';
@@ -16,9 +17,12 @@ class CategoryListView extends StatefulWidget {
   }
 }
 
-class _CategoryListState extends State<CategoryListView> {
+class _CategoryListState extends State<CategoryListView>  with AutomaticKeepAliveClientMixin {
   List<Category> categoryListData = <Category>[];
   List<CategoryTab> tabListData = <CategoryTab>[];
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -81,13 +85,10 @@ class _TabItemList extends StatefulWidget {
   State<StatefulWidget> createState() => _TabItemListState(_list);
 }
 
-class _TabItemListState extends State<_TabItemList> with AutomaticKeepAliveClientMixin{
+class _TabItemListState extends State<_TabItemList>{
   final List<CategoryTab> _tabListData;
 
   _TabItemListState(this._tabListData);
-
-  @override
-  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +111,7 @@ class _TabItemListState extends State<_TabItemList> with AutomaticKeepAliveClien
                         ])),
                 onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return new TabPage();
+                        return new GridPage(source: _tabListData[itemIndex].id);
                     }));
             });
         });
@@ -118,7 +119,7 @@ class _TabItemListState extends State<_TabItemList> with AutomaticKeepAliveClien
 }
 
 class _CategoryItemList extends StatefulWidget {
-  final List<Item> list;
+  final List<CategoryItem> list;
 
   _CategoryItemList(this.list);
 
@@ -128,13 +129,10 @@ class _CategoryItemList extends StatefulWidget {
   }
 }
 
-class _ListItemState extends State<_CategoryItemList> with AutomaticKeepAliveClientMixin{
-  final List<Item> list;
+class _ListItemState extends State<_CategoryItemList> {
+  final List<CategoryItem> list;
 
   _ListItemState(this.list);
-
-  @override
-  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {

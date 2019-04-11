@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'category_list.dart';
+part of 'type_list.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-CategoryList _$CategoryListFromJson(Map<String, dynamic> json) {
-  return CategoryList(
+TypeList _$TypeListFromJson(Map<String, dynamic> json) {
+  return TypeList(
       json['data'] == null
           ? null
           : Data.fromJson(json['data'] as Map<String, dynamic>),
@@ -19,53 +19,24 @@ CategoryList _$CategoryListFromJson(Map<String, dynamic> json) {
           : PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>));
 }
 
-Map<String, dynamic> _$CategoryListToJson(CategoryList instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$TypeListToJson(TypeList instance) => <String, dynamic>{
       'data': instance.data,
       'header': instance.header,
       'pageInfo': instance.pageInfo
     };
 
 Data _$DataFromJson(Map<String, dynamic> json) {
-  return Data(
-      (json['category'] as List)
-          ?.map((e) =>
-              e == null ? null : Category.fromJson(e as Map<String, dynamic>))
-          ?.toList(),
-      (json['tab'] as List)
-          ?.map((e) => e == null
-              ? null
-              : CategoryTab.fromJson(e as Map<String, dynamic>))
-          ?.toList());
+  return Data((json['list'] as List)
+      ?.map((e) =>
+          e == null ? null : TypeListItem.fromJson(e as Map<String, dynamic>))
+      ?.toList());
 }
 
 Map<String, dynamic> _$DataToJson(Data instance) =>
-    <String, dynamic>{'category': instance.category, 'tab': instance.tab};
+    <String, dynamic>{'list': instance.list};
 
-Category _$CategoryFromJson(Map<String, dynamic> json) {
-  return Category(
-      json['tag'] == null
-          ? null
-          : Tag.fromJson(json['tag'] as Map<String, dynamic>),
-      (json['list'] as List)
-          ?.map((e) => e == null
-              ? null
-              : CategoryItem.fromJson(e as Map<String, dynamic>))
-          ?.toList());
-}
-
-Map<String, dynamic> _$CategoryToJson(Category instance) =>
-    <String, dynamic>{'tag': instance.tag, 'list': instance.list};
-
-Tag _$TagFromJson(Map<String, dynamic> json) {
-  return Tag(json['id'] as int, json['name'] as String);
-}
-
-Map<String, dynamic> _$TagToJson(Tag instance) =>
-    <String, dynamic>{'id': instance.id, 'name': instance.name};
-
-CategoryItem _$CategoryItemFromJson(Map<String, dynamic> json) {
-  return CategoryItem(
+TypeListItem _$TypeListItemFromJson(Map<String, dynamic> json) {
+  return TypeListItem(
       json['metadata'] as String,
       json['video'] as String,
       json['cover'] as String,
@@ -88,7 +59,7 @@ CategoryItem _$CategoryItemFromJson(Map<String, dynamic> json) {
       (json['tag'] as List)?.map((e) => e as int)?.toList());
 }
 
-Map<String, dynamic> _$CategoryItemToJson(CategoryItem instance) =>
+Map<String, dynamic> _$TypeListItemToJson(TypeListItem instance) =>
     <String, dynamic>{
       'metadata': instance.metadata,
       'video': instance.video,
@@ -110,19 +81,6 @@ Map<String, dynamic> _$CategoryItemToJson(CategoryItem instance) =>
       'time_daily_month': instance.timeDailyMonth,
       'time_len': instance.timeLen,
       'tag': instance.tag
-    };
-
-CategoryTab _$CategoryTabFromJson(Map<String, dynamic> json) {
-  return CategoryTab(json['cover'] as String, json['color'] as String,
-      json['id'] as int, json['name'] as String);
-}
-
-Map<String, dynamic> _$CategoryTabToJson(CategoryTab instance) =>
-    <String, dynamic>{
-      'cover': instance.cover,
-      'color': instance.color,
-      'id': instance.id,
-      'name': instance.name
     };
 
 Header _$HeaderFromJson(Map<String, dynamic> json) {
