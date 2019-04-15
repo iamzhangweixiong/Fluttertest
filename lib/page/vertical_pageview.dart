@@ -116,7 +116,6 @@ class _PageItemState extends State<_PageItem> {
         setState(() {
           videoController.pause();
         });
-      },
-    );
+      });
   }
 }

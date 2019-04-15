@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:livepaper/page/category_listview.dart';
 import 'package:livepaper/page/first_page.dart';
 
+/// 两个问题：
+/// 1. 滑动冲突
+/// 2. 视屏绿边的问题
 void main() => runApp(TabBarMain());
 
 class TabBarMain extends StatelessWidget {
+
   final titleList = ['Hot','Cate'];
+
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -27,18 +32,11 @@ class TabBarMain extends StatelessWidget {
               indicatorColor: Colors.yellow,//滑动颜色
               indicatorPadding: EdgeInsets.only(bottom: 1.0),//与底部距离为1
               tabs: titleList.map((String text) { //tabs表示具体的内容,是一个数组
-                return new Tab(
-                  text: text,
-                );
-              }).toList(),
-            ),
-          ),
+                return new Tab(text: text);
+              }).toList())),
           //body表示具体展示的内容
-          body: TabBarView(children: [
-            FirstPage(), CategoryListView()
-          ]),
-        ),
-      ),
-    );
+          body: TabBarView(
+              children: [FirstPage(), CategoryListView()]
+          ))));
   }
 }
